@@ -3,7 +3,9 @@ name: Template Standard Flow
 environment_variables:
   DOCUMENT_INTELLIGENCE_ENDPOINT: ${aisconns.endpoint}
   STORAGE_URL_PREFIX: ${document_storage.url_prefix}
-  AZURE_OPENAI_ENDPOINT: ${aisconns_aoai.api_base}
+  HF_API_TOKEN: ${hf_connection.hf_api_token}
+  HF_MODEL_NAME: ${hf_connection.hf_model_name}
+  HF_API_URL: ${hf_connection.hf_api_url}
 environment:
   python_requirements_txt: requirements.txt
 additional_includes:

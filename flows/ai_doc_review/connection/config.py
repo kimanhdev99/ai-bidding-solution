@@ -19,7 +19,7 @@ class Settings(BaseSettings):
     storage_container_name: str = "documents"
     
     # Hugging Face Inference API settings
-    hf_model_name: str = "mistralai/Mistral-7B-Instruct-v0.2"
+    hf_model_name: str = "microsoft/Phi-3-mini-4k-instruct"
     hf_api_token: str = ""  # Hugging Face API token (required for Inference API)
     hf_api_url: str = "https://api-inference.huggingface.co/models"  # Inference API base URL
     hf_max_length: int = 2048

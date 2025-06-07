@@ -1,12 +1,11 @@
 import os
 from pathlib import Path
+from typing import Dict, Any
 
 from promptflow.client import load_flow
-from promptflow.connections import AzureOpenAIConnection
+from promptflow.connections import CustomConnection
 from promptflow.entities import FlowContext
 from common.models import IssueType
-
-AZURE_OPENAI_ENDPOINT = os.environ.get("AZURE_OPENAI_ENDPOINT")
 
 MODELS_MODULE_PATH = Path(__file__).parent / "common" / "models.py"
 TEMPLATE_FLOW_PATH = Path(__file__).parent / "agent_template"
@@ -39,16 +38,25 @@ def create_flow(agent_prompt_path, consolidator_prompt_path, guidelines_prompt_p
             "nodes.guidelines_prompt.source.path": str(guidelines_prompt_path),
             "nodes.llm_multishot.inputs.module_path": str(MODELS_MODULE_PATH),
             "nodes.consolidator.inputs.module_path": str(MODELS_MODULE_PATH),
+            "nodes.llm_multishot.source.type": "python",
+            "nodes.llm_multishot.source.path": "huggingface_client.py",
+            "nodes.consolidator.source.type": "python",
+            "nodes.consolidator.source.path": "huggingface_client.py"
         }
     )
     return flow
 
 
 def setup_flows():
-    connection = AzureOpenAIConnection(
-        name="connection",
-        auth_mode="meid_token",  # use Entra
-        api_base=AZURE_OPENAI_ENDPOINT
+    connection = CustomConnection(
+        name="hf_connection",
+        configs={
+            "hf_model_name": os.environ.get("HF_MODEL_NAME", "microsoft/Phi-3-mini-4k-instruct"),
+            "hf_api_url": "https://api-inference.huggingface.co/models"
+        },
+        secrets={
+            "hf_api_token": ""
+        }
     )
 
     return {

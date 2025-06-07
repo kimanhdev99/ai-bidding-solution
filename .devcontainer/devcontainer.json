@@ -3,6 +3,9 @@
   "features": {
     "ghcr.io/ljtill/features/task:latest": {
       "version": "3.40.1"
+    },
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.12"
     }
   },
   "customizations": {
